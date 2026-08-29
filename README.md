@@ -1,4 +1,5 @@
-# Discord Rich Presence for Creative Apps
+# PSpresence 
+## A Rich Presence for Productivity 
 
 A background script that reads what app/window you have active on macOS 
 and (eventually) sends that info to Discord as a custom status.
