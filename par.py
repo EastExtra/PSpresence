@@ -11,8 +11,8 @@ def _clean(text):
     text = text.strip(" -–—|:●•\u200b")
     return text 
 
-def _turncate(text, limit=DISCORD_MAX_LEN):
-    return text if len(text) <= limit else text[: limit - 1] + "..."
+def _truncate(text, limit=DISCORD_MAX_LEN):
+    return text if len(text) <= limit else text[: limit - 3] + "..."
 
 def _split_title(title): 
     for sep in SEPARATORS: 
@@ -22,6 +22,7 @@ def _split_title(title):
     return _clean(title), None 
 
 def parse_title(app_name, window_title): 
+    app_name = (app_name or "").strip()
     window_title = (window_title or "").strip() 
 
     if not window_title: 
@@ -32,7 +33,7 @@ def parse_title(app_name, window_title):
 
     if filename_match: 
         filename = filename_match.group(0)
-        details = f"Editing{filename}"
+        details = f"Editing {filename}"
         state = rest if rest and rest != filename else app_name
     elif rest: 
         details = first 
@@ -41,8 +42,8 @@ def parse_title(app_name, window_title):
         details = app_name or "Working"
         state = first 
 
-    details = _turncate(_clean(details)) or "Working"
-    state = _turncate(_clean(state)) or "No details"
+    details = _truncate(_clean(details)) or "Working"
+    state = _truncate(_clean(state)) or "No details"
 
     if len(details) < DISCORD_MIN_LEN:
         details = "Working"

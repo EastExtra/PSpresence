@@ -1,6 +1,7 @@
 import subprocess 
 import time 
 from pypresence import Presence 
+from par import parse_title
 
 
 CLIENT_ID = '1542244771790323823'
@@ -58,12 +59,13 @@ def main():
         
         if current_state != last_state:
             try:
+                parsed = parse_title(app, title)
                 rpc.update(
-                    details= app or "Unkown app",
-                    state=title or "No window title",
+                    details=parsed["details"],
+                    state=parsed["state"],
                     start=start_time,
                 )
-                print(f"Updated presence: {app} - {title}")
+                print(f"Updated presence: {parsed['details']} | {parsed['state']}")
                 last_state = current_state
             except Exception as w:
                 print(f"Lost connection to Discord({w}), will reconnect...")
@@ -73,4 +75,4 @@ def main():
         time.sleep(2) 
 
 if __name__ == "__main__":
-    main() 
+    main()
